@@ -1,0 +1,234 @@
+0: NOTA DE NEGOCIAÇÃO
+1: 
+2: Nr. nota
+3: 
+4: Folha
+5: 
+6: Data pregão
+7: 
+8: 78569157
+9: 
+10: 1
+11: 
+12: 11/12/2023
+13: 
+14: RICO CORRETORA DE TITULOS E VALORES MOBILIARIOS S.A.
+15: AV. PRESIDENTE JUSCELINO KUBITSCHEK, 1909 - TORRE NORTE 5 AND ITAIM
+16: BIBI
+17: Tel. +55 11 3003-5465, +55 11 4007-2465   Fax:
+18: Internet: https://www.rico.com.br/ SAC: 0800-774-0402
+19: C.N.P.J: 13.434.335/0001-60
+20: 
+21: 04538-132
+22: 
+23: SAO PAULO - SP
+24: 
+25: e-mail:
+26: Carta Patente:
+27: 
+28: Ouvidoria: Tel. 0800-722-3730
+29: 
+30: e-mail ouvidoria:
+31: 
+32: Cliente
+33: 5527062
+34: 
+35: Participante destino do repasse
+36: 
+37: DANIEL CITRANGULO SINDRA
+38: DR SOBRAL PINTO, 20 - APTO 106 - VILA LAROCA
+39: 36660-000 ALEM PARAIBA - MG
+40: 
+41: Banco
+42: 
+43: Agência
+44: 
+45: Conta corrente
+46: 
+47: Cliente
+48: -
+49: 
+50: Acionista
+51: 
+52: Tel. (0) 0-0000
+53: 
+54: Valor
+55: 0
+56: 
+57: C.P.F./C.N.P.J/C.V.M./C.O.B.
+58: 7352495630
+59: Código cliente
+60: 
+61:  3-5   5527062 
+62: 
+63: Custodiante
+64: 
+65: Administrador
+66: 
+67: Complemento nome
+68: 
+69: Assessor
+70: 
+71: 3534
+72: 
+73: C.I
+74: 
+75: N
+76: 
+77: P. Vinc
+78: N
+79: 
+80: Negócios realizados
+81: Q Negociação
+82: 
+83: C/V Tipo mercado
+84: 
+85: Prazo Especificação do título
+86: 
+87: Obs. (*) Quantidade
+88: 
+89: Preço / Ajuste
+90: 
+91: Valor Operação / Ajuste
+92: 
+93: D/C
+94: 
+95: 1-BOVESPA
+96: 1-BOVESPA
+97: 
+98: C FRACIONARIO
+99: C FRACIONARIO
+100: 
+101: ITAUSA          PN EJ N1
+102: ROMI          ON NM
+103: 
+104: 1
+105: 5
+106: 
+107: 9,74
+108: 12,56
+109: 
+110: 9,74 D
+111: 62,80 D
+112: 
+113: Resumo dos Negócios
+114: Debêntures 
+115: Vendas à vista 
+116: Compras à vista 
+117: Opções - compras 
+118: Opções - vendas 
+119: Operações à termo 
+120: Valor das oper. c/ títulos públ. (v. nom.) 
+121: Valor das operações 
+122: 
+123: Especificações diversas
+124: 
+125: A coluna Q indica liquidação no Agente do Qualificado.
+126: 
+127: 0,00
+128: 0,00
+129: 72,54
+130: 0,00
+131: 0,00
+132: 0,00
+133: 0,00
+134: 72,54
+135: 
+136: Resumo Financeiro
+137: Clearing 
+138: Valor líquido das operações
+139: Taxa de liquidação
+140: Taxa de Registro
+141: Total CBLC
+142: Bolsa 
+143: Taxa de termo/opções
+144: Taxa A.N.A.
+145: Emolumentos
+146: Total Bovespa / Soma
+147: Custos Operacionais
+148: 
+149: Taxa Operacional
+150: Execução
+151: Taxa de Custódia
+152: Impostos
+153: I.R.R.F. s/ operações, base R$0,00
+154: Outros
+155: 
+156: 72,54
+157: 0,01
+158: 0,00
+159: 72,55
+160: 
+161: D
+162: D
+163: 
+164: D
+165: 
+166: 0,00
+167: 0,00
+168: 0,00
+169: 0,00
+170: 
+171: 0,00
+172: 0,00
+173: 0,00
+174: 0,00
+175: 0,00
+176: 0,00
+177: 
+178: (*) Observações
+179: 
+180: A - Posição futuro
+181: 
+182: T - Liquidação pelo Bruto
+183: 
+184: 2 - Corretora ou pessoa vinculada atuou na contra parte.
+185: 
+186: C - Clubes e fundos de Ações
+187: 
+188: I - POP
+189: 
+190: Total Custos / Despesas
+191: Líquido para 13/12/2023
+192: Observação: (1) As operações a termo não são computadas no líquido da fatura.
+193: 
+194: 0,00
+195: 72,55
+196: 
+197: D
+198: 
+199: # - Negócio direto
+200: 
+201: P - Carteira Própria
+202: 
+203: 8 - Liquidação Institucional
+204: 
+205: H - Home Broker
+206: 
+207: D - Day Trade
+208: 
+209: F - Cobertura
+210: 
+211: B - Debêntures
+212: 
+213: X - Box
+214: 
+215: Y - Desmanche de Box
+216: 
+217: L - Precatório
+218: 
+219: Capitais e regiões metropolitanas: +55 11 3003-5465, +55 11 4007-2465 ou 4007-2465 Demais localidades: 0800-771-5465 SAC: 0800-774-0402 Ouvidoria: 0800-722-3730
+220: 
+221:  
+222:  
+223:  
+224:  
+225:  
+226:  
+227:  
+228:  
+229:  
+230:  
+231:  
+232:  
+233: 
