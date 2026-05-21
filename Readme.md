@@ -17,6 +17,8 @@
 - Adicionar lançamento de bonificações
 - Adicionar compra de subscrição
 - Adicionar agrupamento e desdobramento
+    - adicionar desdobramento ao lançar notas emitidas antes da data de referência que foram lançadas depois do registro no sistema
+    - fazer o mesmo para bonificações
 - Adicionar relatório de notas 
 - Adicionar alteração do código Ticker
 - Ajustar o tamanho da tabela de itens da nota fiscal

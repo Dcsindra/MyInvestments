@@ -156,3 +156,26 @@ class DesdobramentoAgrupamento(Base):
         return f"<DesdobramentoAgrupamento(data_operacao='{self.operacao}', ticker='{self.ticker}', "\
                 f"tipo='{self.tipo}', fator_saida='{self.fator_saida}', fator_entrada='{self.fator_entrada}', "\
                 f"quantidade='{self.quantidade_sobra}', valor_sobra='{self.valor_sobra}')>"
+
+class Kardex(Base):
+    __tablename__ = "kardex"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    data_documento = Column(Date, nullable=False)
+    data_lancamento = Column(Date, nullable=False)
+    operacao = Column(String(13), nullable=False)
+    docnum = Column(Integer, nullable=True)
+    ticker = Column(String(6), ForeignKey('tickers.ticker'), primary_key=True, nullable=False)
+    qtd_saida = Column(Integer, nullable=True)
+    qtd_entrada = Column(Integer, nullable=True)
+    valor_movimento = Column(Numeric(10,2), nullable=False)
+    saldo_qtd = Column(Integer, nullable=True)
+    saldo_valor = Column(Numeric(10,2), nullable=False)
+    custo_medio = Column(Numeric(10,2), nullable=False)
+
+    obj_tickers = relationship("Tickers", back_populates="obj_desdobramento_agrupamento")
+    
+    def __repr__(self):
+        return f"<DesdobramentoAgrupamento(data_operacao='{self.operacao}', ticker='{self.ticker}', "\
+                f"tipo='{self.tipo}', fator_saida='{self.fator_saida}', fator_entrada='{self.fator_entrada}', "\
+                f"quantidade='{self.quantidade_sobra}', valor_sobra='{self.valor_sobra}')>"
