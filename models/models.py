@@ -14,7 +14,8 @@ class Clientes(Base):
     obj_notas = relationship("Notas", back_populates="obj_clientes")
     obj_rendimentos = relationship("Rendimentos", back_populates="obj_clientes")
     obj_posicao_ativos = relationship("PosicaoAtivos", back_populates="obj_clientes")
-    
+    obj_kardex = relationship("Kardex", back_populates="obj_clientes")
+
     def __repr__(self):
         return f"<Cliente(nome='{self.nome}', cpf='{self.cpf}')>"
     
@@ -47,6 +48,7 @@ class Tickers(Base):
     obj_rendimentos = relationship("Rendimentos", back_populates="obj_tickers")
     obj_posicao_ativos = relationship("PosicaoAtivos", back_populates="obj_tickers")
     obj_desdobramento_agrupamento = relationship("DesdobramentoAgrupamento", back_populates="obj_tickers")
+    obj_kardex = relationship("Kardex", back_populates="obj_tickers")
 
     def __repr__(self):
         tipo_ativo_desc = self.obj_tipo_ativo.descricao if self.obj_tipo_ativo else self.id_tipo_ativo
@@ -76,6 +78,7 @@ class Notas(Base):
 
     obj_clientes = relationship("Clientes", back_populates="obj_notas")
     obj_itens_nota = relationship("ItensNotas", back_populates="obj_notas")
+    obj_kardex = relationship("Kardex", back_populates="obj_docnum")
 
     def __repr__(self):
         return f"<Notas(docnum='{self.docnum}', data_documento='{self.data_documento}', codigo_cliente='{self.codigo_cliente}')>"
@@ -161,11 +164,12 @@ class Kardex(Base):
     __tablename__ = "kardex"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    id_cliente = Column(Integer, ForeignKey('clientes.id_cliente'), nullable=False)
     data_documento = Column(Date, nullable=False)
     data_lancamento = Column(Date, nullable=False)
     operacao = Column(String(13), nullable=False)
-    docnum = Column(Integer, nullable=True)
-    ticker = Column(String(6), ForeignKey('tickers.ticker'), primary_key=True, nullable=False)
+    docnum = Column(Integer, ForeignKey('notas.docnum'), nullable=True)
+    ticker = Column(String(6), ForeignKey('tickers.ticker'), nullable=False)
     qtd_saida = Column(Integer, nullable=True)
     qtd_entrada = Column(Integer, nullable=True)
     valor_movimento = Column(Numeric(10,2), nullable=False)
@@ -173,9 +177,12 @@ class Kardex(Base):
     saldo_valor = Column(Numeric(10,2), nullable=False)
     custo_medio = Column(Numeric(10,2), nullable=False)
 
-    obj_tickers = relationship("Tickers", back_populates="obj_desdobramento_agrupamento")
+    obj_tickers = relationship("Tickers", back_populates="obj_kardex")
+    obj_docnum = relationship("Notas", back_populates="obj_kardex")
+    obj_clientes = relationship("Clientes", back_populates="obj_kardex")
     
     def __repr__(self):
-        return f"<DesdobramentoAgrupamento(data_operacao='{self.operacao}', ticker='{self.ticker}', "\
-                f"tipo='{self.tipo}', fator_saida='{self.fator_saida}', fator_entrada='{self.fator_entrada}', "\
-                f"quantidade='{self.quantidade_sobra}', valor_sobra='{self.valor_sobra}')>"
+        return f"<Kardex(data_documento='{self.data_documento}', data_lancamento='{self.data_lancamento}', "\
+                f"operacao='{self.operacao}', docnum='{self.docnum}', ticker='{self.ticker}', "\
+                f"qtd_saida='{self.qtd_saida}', qtd_entrada='{self.qtd_entrada}', valor_movimento='{self.valor_movimento}', "\
+                f"saldo_qtd='{self.saldo_qtd}', saldo_valor='{self.saldo_valor}', custo_medio='{self.custo_medio}')>"

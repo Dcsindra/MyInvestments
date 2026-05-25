@@ -5,6 +5,7 @@ from controllers.tickers_controller import TickersController
 from controllers.notas_controller import NotasController
 from controllers.itens_nota_controller import ItensNotasController
 from controllers.rendimentos_controller import RendimentosController
+from controllers.kardex_controller import Kardex
 from views.main_view import MainView
 
 class Main:
@@ -19,6 +20,7 @@ class Main:
         self.contr_notas = NotasController(self.Session)
         self.contr_itens_nota = ItensNotasController(self.Session)
         self.contr_rendimentos = RendimentosController(self.Session)
+        # self.contr_kardex = Kardex(self.Session)
 
         # 3. Cria a interface e injeta os controllers
         # Guardamos na propriedade 'root' para o mainloop acessar depois

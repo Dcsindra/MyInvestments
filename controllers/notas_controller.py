@@ -1,7 +1,8 @@
-from models.models import Notas, ItensNotas, Tickers, NomeTickers, PosicaoAtivos
+from models.models import Notas, ItensNotas, Tickers, NomeTickers, PosicaoAtivos, Kardex
 from tkinter import messagebox
 from sqlalchemy import func, case, extract, desc
 from decimal import Decimal
+from datetime import datetime
 
 class NotasController():
     def __init__(self, session):
@@ -48,13 +49,30 @@ class NotasController():
                         posicao = self.salvar_posicao_ativo(
                             session,
                             cliente, 
-                            data_documento[-4:], 
+                            data_documento[-4:], # últimos 4 dígitos do ano
                             cod_ticker, 
-                            dados[3], 
+                            dados[3],  
                             dados[5]
                         )
                         posicao_nota.append(posicao)
+                        
+                        agora = datetime.now()
+                        kardex = self.save_kardex(
+                            session,
+                            cliente,
+                            data_documento,
+                            # data_lancamento = agora.strftime('%d/%m/%Y'),
+                            data_lancamento = agora,
+                            operacao = 'COMPRA' if dados[2][0] == 'C' else 'VENDA',
+                            ticker = cod_ticker,
+                            qtd_saida = int(dados[3]) if dados[2][0] == 'V' else 0,
+                            qtd_entrada = int(dados[3]) if dados[2][0] == 'C' else 0,
+                            valor_movimento = Decimal(dados[5]),
+                            docnum = docnum
+                        )
+                        
                 session.add(nova_nota)
+                session.add(kardex)
                 session.add_all(posicao_nota)
                 session.commit()
                 messagebox.showinfo("Sucesso", f"Nota {nova_nota.docnum} cadastrada com sucesso!")
@@ -175,3 +193,53 @@ class NotasController():
                     custo_medio = float(valor_total) / int(quantidade)
                 )
                 return novo_registro
+            
+    def save_kardex(self, session, id_cliente, data_documento, data_lancamento, operacao, 
+                    ticker, qtd_saida, qtd_entrada, valor_movimento, docnum=None):
+        """
+        Se operação = COMPRA, qtd saída deve ser 0 e valor movimento deve ser positivo.
+        Se operação = VENDA, qtd entrada e valor movimento deve ser 0.
+        
+        """
+        last_kardex = self.get_last_kardex(session, ticker, id_cliente)
+        
+        if last_kardex:
+            valor_movimento = -last_kardex[4] * qtd_saida if operacao == 'VENDA' else valor_movimento
+            saldo_qtd = last_kardex[2] - qtd_saida + qtd_entrada
+            saldo_valor = last_kardex[3] + valor_movimento
+            custo_medio = saldo_valor / saldo_qtd if saldo_qtd != 0 else 0
+        else:
+            saldo_qtd = qtd_entrada - qtd_saida
+            saldo_valor = valor_movimento
+            custo_medio = valor_movimento / saldo_qtd    
+        
+        new_kardex = Kardex(
+            id_cliente = id_cliente,
+            data_documento = data_documento, 
+            data_lancamento = data_lancamento, 
+            operacao = operacao, 
+            docnum = docnum, 
+            ticker = ticker, 
+            qtd_saida = qtd_saida,
+            qtd_entrada = qtd_entrada, 
+            valor_movimento = valor_movimento, 
+            saldo_qtd = saldo_qtd, 
+            saldo_valor = saldo_valor, 
+            custo_medio = custo_medio
+        )
+        return new_kardex
+    
+    def get_last_kardex(self, session, ticker, id_cliente=None):
+        last_kardex = session.query(
+            Kardex.id_cliente,
+            Kardex.ticker,
+            Kardex.saldo_qtd,
+            Kardex.saldo_valor,
+            Kardex.custo_medio
+        ).filter(
+            Kardex.id_cliente == id_cliente,
+            Kardex.ticker == ticker
+        ).order_by(
+            desc(Kardex.id)
+        ).first()
+        return last_kardex

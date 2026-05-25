@@ -22,6 +22,7 @@
 - Adicionar relatório de notas 
 - Adicionar alteração do código Ticker
 - Ajustar o tamanho da tabela de itens da nota fiscal
+- Adicionar estorno de nota de corretagem
 
 4. Gravar/Atualizar posição de ativos
 
