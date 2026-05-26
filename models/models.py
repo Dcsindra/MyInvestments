@@ -145,7 +145,9 @@ class PosicaoAtivos(Base):
 class DesdobramentoAgrupamento(Base):
     __tablename__ = "desdobrar_agrupar"
 
-    data_operacao = Column(Date, primary_key=True, nullable=False)
+    data_divulgacao = Column(Date, primary_key=True, nullable=False)
+    data_com = Column(Date, primary_key=True, nullable=False)
+    data_lancamento = Column(Date, primary_key=True, nullable=False)
     ticker = Column(String(6), ForeignKey('tickers.ticker'), primary_key=True, nullable=False)
     tipo = Column(String(1), primary_key=True, nullable=False)
     fator_saida = Column(Integer, primary_key=True, nullable=False)
