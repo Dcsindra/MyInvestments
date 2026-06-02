@@ -15,23 +15,19 @@ class DesdobramentoAgrupamentoController:
             ticker, 
             tipo, 
             fator_saida, 
-            fator_entrada, 
-            quantidade_sobra=None, 
-            valor_sobra=None):
+            fator_entrada):
         with self.Session() as session:
             try:
                 desdobramento_agrupamento = DesdobramentoAgrupamento(
-                    data_divulgacao=data_divulgacao,
                     data_com=data_com,
+                    data_divulgacao=data_divulgacao,
                     data_lancamento=data_lancamento,
                     ticker=ticker,
                     tipo=tipo,
                     fator_saida=fator_saida,
-                    fator_entrada=fator_entrada,
-                    quantidade_sobra=quantidade_sobra,
-                    valor_sobra=valor_sobra
+                    fator_entrada=fator_entrada
                 )
-                kardex_list = self.kardex_controller.registerShareAdjustment(
+                kardex_list, sobra_list = self.kardex_controller.registerShareAdjustment(
                     session=session,
                     data_documento=data_com,
                     data_lancamento=data_lancamento,
@@ -42,6 +38,7 @@ class DesdobramentoAgrupamentoController:
                 )
                 self.session.add(desdobramento_agrupamento)
                 self.session.add_all(kardex_list)
+                self.session.add_all(sobra_list)
                 self.session.commit()
                 messagebox.showinfo("Sucesso", "Desdobramento/Agrupamento cadastrado com sucesso!")
             except Exception as e:

@@ -14,6 +14,7 @@ class Clientes(Base):
     obj_notas = relationship("Notas", back_populates="obj_clientes")
     obj_rendimentos = relationship("Rendimentos", back_populates="obj_clientes")
     obj_posicao_ativos = relationship("PosicaoAtivos", back_populates="obj_clientes")
+    obj_sobras_grupamento = relationship("SobrasGrupamento", back_populates="obj_clientes")
     obj_kardex = relationship("Kardex", back_populates="obj_clientes")
 
     def __repr__(self):
@@ -48,6 +49,7 @@ class Tickers(Base):
     obj_rendimentos = relationship("Rendimentos", back_populates="obj_tickers")
     obj_posicao_ativos = relationship("PosicaoAtivos", back_populates="obj_tickers")
     obj_desdobramento_agrupamento = relationship("DesdobramentoAgrupamento", back_populates="obj_tickers")
+    obj_sobras_grupamento = relationship("SobrasGrupamento", back_populates="obj_tickers")
     obj_kardex = relationship("Kardex", back_populates="obj_tickers")
 
     def __repr__(self):
@@ -145,23 +147,37 @@ class PosicaoAtivos(Base):
 class DesdobramentoAgrupamento(Base):
     __tablename__ = "desdobrar_agrupar"
 
-    data_divulgacao = Column(Date, primary_key=True, nullable=False)
     data_com = Column(Date, primary_key=True, nullable=False)
+    data_divulgacao = Column(Date, primary_key=True, nullable=False)
     data_lancamento = Column(Date, primary_key=True, nullable=False)
     ticker = Column(String(6), ForeignKey('tickers.ticker'), primary_key=True, nullable=False)
     tipo = Column(String(1), primary_key=True, nullable=False)
     fator_saida = Column(Integer, primary_key=True, nullable=False)
     fator_entrada = Column(Integer, primary_key=True, nullable=False)
-    quantidade_sobra = Column(Float, nullable=True)
-    valor_sobra = Column(Float, nullable=True)
     
     obj_tickers = relationship("Tickers", back_populates="obj_desdobramento_agrupamento")
     
     def __repr__(self):
-        return f"<DesdobramentoAgrupamento(data_operacao='{self.operacao}', ticker='{self.ticker}', "\
-                f"tipo='{self.tipo}', fator_saida='{self.fator_saida}', fator_entrada='{self.fator_entrada}', "\
-                f"quantidade='{self.quantidade_sobra}', valor_sobra='{self.valor_sobra}')>"
+        return f"<DesdobramentoAgrupamento(data_com='{self.data_com}', data_divulgacao='{self.data_divulgacao}', "\
+                f"data_lancamento='{self.data_lancamento}', ticker='{self.ticker}', tipo='{self.tipo}', "\
+                f"fator_saida='{self.fator_saida}', fator_entrada='{self.fator_entrada}')>"
 
+class SobrasGrupamento(Base):
+    __tablename__ = "desdobrar_agrupar"
+
+    id_cliente = Column(Integer, ForeignKey('clientes.id_cliente'), primary_key=True, nullable=False)
+    ticker = Column(String(6), ForeignKey('tickers.ticker'), primary_key=True, nullable=False)
+    data_lancamento = Column(Date, primary_key=True, nullable=False)
+    quantidade_sobra = Column(Float, nullable=False)
+    valor_sobra = Column(Float, nullable=False)
+    
+    obj_clientes = relationship("Clientes", back_populates="obj_sobras_grupamento")
+    obj_tickers = relationship("Tickers", back_populates="obj_sobras_grupamento")
+    
+    def __repr__(self):
+        return f"<SobrasGrupamento(id_cliente='{self.id_cliente}', ticker='{self.ticker}', "\
+                f"data_lancamento='{self.data_lancamento}', quantidade_sobra='{self.quantidade_sobra}', "\
+                f"valor_sobra='{self.valor_sobra}')>"
 class Kardex(Base):
     __tablename__ = "kardex"
 

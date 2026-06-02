@@ -1,4 +1,5 @@
 from models.models import Kardex
+from models.models import SobrasGrupamento
 from tkinter import messagebox
 from sqlalchemy import func, desc
 
@@ -97,6 +98,7 @@ class KardexController():
         data_lancamento: data de execução do lançamento de desdobramento/agrupamento
         """
         kardex_list = []
+        sobra_list =[]
         last_kardex = self.get_last_kardex(session, ticker)
         if not last_kardex:
             messagebox.showerror("Erro", "Não há posição anterior para esse ativo. Impossível registrar desdobramento/agrupamento.")
@@ -104,9 +106,42 @@ class KardexController():
         
         for row in last_kardex:
             id_cliente = row.id_cliente
+            qtd_saida = row.saldo_qtd
+            qtd_entrada = row.saldo_qtd / fator_saida * fator_entrada
+            
+            if qtd_entrada % 1 != 0:
+                # qtd_entrada resulta em fração.
+                qtd_sobra = qtd_entrada - int(qtd_entrada)
+                qtd_entrada = int(qtd_entrada)
+                if qtd_entrada == 0:
+                    # qtd_entrada resulta em fração, mas é menor que 1, então o saldo do cliente é zerado e a sobra é registrada.
+                    valor_movimento = -row.saldo_valor
+                    saldo_qtd = 0
+                    saldo_valor = 0
+                    custo_medio = 0
+                    valor_sobra = row.saldo_valor                    
+                else:
+                    # qtd_entrada resulta em fração, mas é maior que 1, então o cliente recebe a parte inteira e a sobra é registrada.
+                    valor_movimento = -row.custo_medio * (qtd_saida - qtd_entrada * fator_entrada)
+                    saldo_qtd = qtd_entrada
+                    saldo_valor = row.custo_medio * qtd_entrada * fator_entrada
+                    custo_medio = saldo_valor / saldo_qtd
+                    valor_sobra = valor_movimento
 
-            qtd_entrada = (last_kardex[2] * fator_entrada) // fator_saida
-            valor_movimento = last_kardex[3] * (qtd_entrada / last_kardex[2]) if last_kardex[2] != 0 else 0
+                new_sobra = SobrasGrupamento(
+                    id_cliente = id_cliente,
+                    ticker = ticker,
+                    data_lancamento = data_lancamento,
+                    qtd_sobra = qtd_sobra,
+                    valor_sobra = valor_sobra
+                )
+                sobra_list.append(new_sobra)
+            else:
+                # qtd_entrada é um número inteiro, então o cliente recebe a quantidade total e não há sobra.
+                valor_movimento = 0
+                saldo_qtd = qtd_entrada
+                saldo_valor = row.saldo_valor
+                custo_medio = saldo_valor / saldo_qtd if saldo_qtd != 0 else 0
         
             new_kardex = Kardex(
                     id_cliente = id_cliente,
@@ -121,6 +156,7 @@ class KardexController():
                     saldo_valor = saldo_valor, 
                     custo_medio = custo_medio
                 )
+            
             kardex_list.append(new_kardex)
 
-        return kardex_list
+        return kardex_list, sobra_list
