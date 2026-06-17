@@ -1,5 +1,4 @@
 from models.models import Clientes
-# from database.database import Database
 from tkinter import messagebox
 
 class ClientesController:

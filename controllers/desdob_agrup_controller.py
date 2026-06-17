@@ -16,6 +16,23 @@ class DesdobramentoAgrupamentoController:
             tipo, 
             fator_saida, 
             fator_entrada):
+        
+        if ticker == "Ticker":
+            messagebox.showerror("Erro", "Por favor, selecione um ticker válido.")
+            return
+        
+        if tipo == "Tipo":
+            messagebox.showerror("Erro", "Por favor, selecione um tipo válido.")
+            return
+
+        if fator_saida == "":
+            messagebox.showerror("Erro", "Por favor, informe o fator de saída.")
+            return
+
+        if fator_entrada == "":
+            messagebox.showerror("Erro", "Por favor, informe o fator de entrada.")
+            return
+
         with self.Session() as session:
             try:
                 desdobramento_agrupamento = DesdobramentoAgrupamento(

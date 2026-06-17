@@ -1,0 +1,18 @@
+# Ocultar a pasta do ambiente virtual
+venv/
+
+# Ocultar pastas de cache do Python (evita arquivos inúteis no git)
+__pycache__/
+*.pyc
+
+# Ocultar arquivos de configuração do editor
+.vscode/
+.idea/
+
+# Se você criar arquivos de banco SQLite locais para testes
+*.db
+*.sqlite3
+
+# Arquivos diversos
+template kardex.xlsx
+Template Relatório IR.xlsx

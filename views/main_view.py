@@ -6,6 +6,8 @@ from views.notas_view import NotasView
 from views.relatorio_ir_view import RelatorioIrView
 from views.importar_notas_view import ImportarNotasView
 from views.rendimentos_view import RendimentosView
+from views.desdob_agrup_view import DesdobramentoAgrupamentoView
+from views.outras_entradas_view import OutrasEntradasView
 from services.utils import Utils
 
 class MainView(ctk.CTk, Utils):
@@ -16,7 +18,9 @@ class MainView(ctk.CTk, Utils):
             ctrl_tickers, 
             ctrl_notas, 
             ctrl_itens_nota, 
-            ctrl_rendimentos
+            ctrl_rendimentos,
+            ctrl_desdob_agrup,
+            ctrl_outras_entradas
         ):
         super().__init__()
 
@@ -32,6 +36,8 @@ class MainView(ctk.CTk, Utils):
         self.ctrl_notas = ctrl_notas
         self.ctrl_itens_nota = ctrl_itens_nota
         self.ctrl_rendimentos = ctrl_rendimentos
+        self.ctrl_desdob_agrup = ctrl_desdob_agrup
+        self.ctrl_outras_entradas = ctrl_outras_entradas
 
         # Configuração de Grid (Sidebar na col 0, Conteúdo na col 1)
         self.grid_columnconfigure(1, weight=1)
@@ -72,6 +78,14 @@ class MainView(ctk.CTk, Utils):
         self.btn_declaracao_ir = ctk.CTkButton(self.sidebar_frame, text="Declaração IR",
                                                command=self.show_relatorio_ir)
         self.btn_declaracao_ir.pack(pady=10)
+
+        self.btn_desdob_agrup = ctk.CTkButton(self.sidebar_frame, text="Desd./Agrup.",
+                                               command=self.show_desdobramentos_agrupamentos)
+        self.btn_desdob_agrup.pack(pady=10)
+
+        self.btn_outras_entradas = ctk.CTkButton(self.sidebar_frame, text="Outras Entradas",
+                                               command=self.show_outras_entradas)
+        self.btn_outras_entradas.pack(pady=10)
 
         # --- ÁREA CENTRAL (CONTEÚDO DINÂMICO) ---
         self.container_frame = ctk.CTkFrame(self, fg_color="transparent")
@@ -148,5 +162,21 @@ class MainView(ctk.CTk, Utils):
             ctrl_notas=self.ctrl_notas,
             ctrl_rendimentos=self.ctrl_rendimentos)
         self.current_view.pack(fill="both", expand="True")
-        # dados = self.ctrl_notas.get_posicao_ativos("1000000", "2025")
         print("Abrindo tela de Relatório de IR...")
+
+    def show_desdobramentos_agrupamentos(self):
+        self.clear_container()
+        self.current_view = DesdobramentoAgrupamentoView(
+           master=self.container_frame,
+            ctrl_desdob_agrup=self.ctrl_desdob_agrup,
+            ctrl_tickers=self.ctrl_tickers)
+        self.current_view.pack(fill="both", expand="True")
+        print("Abrindo tela de desdobramentos e agrupamentos...")
+    
+    def show_outras_entradas(self):
+        self.clear_container()
+        self.current_view = OutrasEntradasView(
+           master=self.container_frame,
+            ctrl_outras_entradas=self.ctrl_outras_entradas)
+        self.current_view.pack(fill="both", expand="True")
+        print("Abrindo tela de Outras Entradas...")

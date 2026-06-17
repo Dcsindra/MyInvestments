@@ -24,7 +24,8 @@ class NotasView(ctk.CTkFrame):
         self.entry_data.pack(pady=5)
 
         lista_clientes = self.controller_cliente.listar_clientes() 
-        self.cb_clientes = ctk.CTkComboBox(self, values=lista_clientes, width=150)
+        # self.cb_clientes = ctk.CTkComboBox(self, values=lista_clientes, width=150)
+        self.cb_clientes = ctk.CTkOptionMenu(self, values=["Cliente"] + lista_clientes, width=150)
         self.cb_clientes.set("Cliente")
         self.cb_clientes.pack(pady=5)
         

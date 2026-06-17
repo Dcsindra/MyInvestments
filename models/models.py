@@ -16,6 +16,7 @@ class Clientes(Base):
     obj_posicao_ativos = relationship("PosicaoAtivos", back_populates="obj_clientes")
     obj_sobras_grupamento = relationship("SobrasGrupamento", back_populates="obj_clientes")
     obj_kardex = relationship("Kardex", back_populates="obj_clientes")
+    obj_outras_entradas = relationship("OutrasEntradas", back_populates="obj_clientes")
 
     def __repr__(self):
         return f"<Cliente(nome='{self.nome}', cpf='{self.cpf}')>"
@@ -51,6 +52,7 @@ class Tickers(Base):
     obj_desdobramento_agrupamento = relationship("DesdobramentoAgrupamento", back_populates="obj_tickers")
     obj_sobras_grupamento = relationship("SobrasGrupamento", back_populates="obj_tickers")
     obj_kardex = relationship("Kardex", back_populates="obj_tickers")
+    obj_outras_entradas = relationship("OutrasEntradas", back_populates="obj_tickers")
 
     def __repr__(self):
         tipo_ativo_desc = self.obj_tipo_ativo.descricao if self.obj_tipo_ativo else self.id_tipo_ativo
@@ -163,7 +165,7 @@ class DesdobramentoAgrupamento(Base):
                 f"fator_saida='{self.fator_saida}', fator_entrada='{self.fator_entrada}')>"
 
 class SobrasGrupamento(Base):
-    __tablename__ = "desdobrar_agrupar"
+    __tablename__ = "sobras_grupamento"
 
     id_cliente = Column(Integer, ForeignKey('clientes.id_cliente'), primary_key=True, nullable=False)
     ticker = Column(String(6), ForeignKey('tickers.ticker'), primary_key=True, nullable=False)
@@ -178,6 +180,7 @@ class SobrasGrupamento(Base):
         return f"<SobrasGrupamento(id_cliente='{self.id_cliente}', ticker='{self.ticker}', "\
                 f"data_lancamento='{self.data_lancamento}', quantidade_sobra='{self.quantidade_sobra}', "\
                 f"valor_sobra='{self.valor_sobra}')>"
+    
 class Kardex(Base):
     __tablename__ = "kardex"
 
@@ -204,3 +207,23 @@ class Kardex(Base):
                 f"operacao='{self.operacao}', docnum='{self.docnum}', ticker='{self.ticker}', "\
                 f"qtd_saida='{self.qtd_saida}', qtd_entrada='{self.qtd_entrada}', valor_movimento='{self.valor_movimento}', "\
                 f"saldo_qtd='{self.saldo_qtd}', saldo_valor='{self.saldo_valor}', custo_medio='{self.custo_medio}')>"
+    
+class OutrasEntradas(Base):
+    __tablename__ = "outras_entradas"
+
+    id_cliente = Column(Integer, ForeignKey('clientes.id_cliente'), primary_key=True, nullable=False)
+    ticker = Column(String(6), ForeignKey('tickers.ticker'), primary_key=True, nullable=False)
+    data_movimento = Column(Date, primary_key=True, nullable=False)
+    tipo = Column(String(11), primary_key=True, nullable=False)
+    data_lancamento = Column(Date, nullable=False)
+    quantidade = Column(Integer, nullable=False)
+    valor_unitario = Column(Float, nullable=False)
+    valor_total = Column(Float, nullable=False)
+
+    obj_clientes = relationship("Clientes", back_populates="obj_outras_entradas")
+    obj_tickers = relationship("Tickers", back_populates="obj_outras_entradas")
+
+    def __repr__(self):
+        return f"<OutrasEntradas(id_cliente='{self.id_cliente}', ticker='{self.ticker}', "\
+                f"data_movimento='{self.data_movimento}', tipo='{self.tipo}', data_lancamento='{self.data_lancamento}', "\
+                f"quantidade='{self.quantidade}', valor_unitario='{self.valor_unitario}', valor_total='{self.valor_total}')>"
